@@ -67,17 +67,17 @@ contract SupplyChain {
     {
         require(medicineCtr > 0);
         if (MedicineStock[_medicineID].stage == STAGE.Init)
-            return "Medicine Ordered";
+            return "Unit Ordered";
         else if (MedicineStock[_medicineID].stage == STAGE.RawMaterialSupply)
-            return "Raw Material Supply Stage";
+            return "Farmer  Supply Stage";
         else if (MedicineStock[_medicineID].stage == STAGE.Manufacture)
-            return "Manufacturing Stage";
+            return "Processing Stage";
         else if (MedicineStock[_medicineID].stage == STAGE.Distribution)
             return "Distribution Stage";
         else if (MedicineStock[_medicineID].stage == STAGE.Retail)
-            return "Retail Stage";
+            return "Buyer Stage";
         else if (MedicineStock[_medicineID].stage == STAGE.sold)
-            return "Medicine Sold";
+            return "Unit Sold";
 
         return "Unknown Stage";
     }

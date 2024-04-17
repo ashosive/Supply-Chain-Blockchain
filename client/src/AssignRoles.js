@@ -179,7 +179,7 @@ function AssignRoles() {
         try {
             var reciept = await SupplyChain.methods.addRetailer(RETaddress, RETname, RETplace).send({ from: currentaccount });
             if (reciept) {
-                loadBlockchaindata();
+                await loadBlockchaindata();
             }
         }
         catch (err) {
@@ -257,7 +257,7 @@ function AssignRoles() {
 <div className="container">
     <div className="row mt-3">
         <div className="col">
-            <h4>Manufacturers:</h4>
+            <h4>Processing:</h4>
             <form onSubmit={handlerSubmitMAN} className="mb-3">
                 <div className="row">
                     <div className="col">
