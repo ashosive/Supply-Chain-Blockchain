@@ -9,13 +9,13 @@ function AddMed() {
 
     useEffect(() => {
         loadWeb3();
-        loadBlockchaindata();
+        loadBlockchaindata().then(r => {});
     }, []);
 
     const [currentaccount, setCurrentaccount] = useState("");
     const [loader, setLoader] = useState(true);
     const [supplyChain, setSupplyChain] = useState(null);
-    const [medicines, setMedicines] = useState([]);
+    const [unit, setUnit] = useState([]);
     const [medName, setMedName] = useState("");
     const [medDes, setMedDes] = useState("");
 
@@ -46,13 +46,13 @@ function AddMed() {
             if (networkData) {
                 const supplyChainInstance = new web3.eth.Contract(SupplyChainABI.abi, networkData.address);
                 setSupplyChain(supplyChainInstance);
-                const medCtr = await supplyChainInstance.methods.medicineCtr().call();
+                const medCtr = await supplyChainInstance.methods.orderUnitCtr().call();
                 const meds = [];
                 for (let i = 0; i < medCtr; i++) {
-                    const med = await supplyChainInstance.methods.MedicineStock(i + 1).call();
+                    const med = await supplyChainInstance.methods.unitStock(i + 1).call();
                     meds.push(med);
                 }
-                setMedicines(meds);
+                setUnit(meds);
                 setLoader(false);
             } else {
                 window.alert('The smart contract is not deployed to the current network');
@@ -78,7 +78,7 @@ function AddMed() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await supplyChain.methods.addMedicine(medName, medDes).send({ from: currentaccount, gas: 6721975 });
+            await supplyChain.methods.addUnit(medName, medDes).send({ from: currentaccount, gas: 6721975 });
             await loadBlockchaindata();
         } catch (error) {
             console.error('Error submitting product order:', error);
@@ -119,7 +119,7 @@ function AddMed() {
                             </tr>
                         </thead>
                         <tbody>
-                            {medicines.map((med, index) => (
+                            {unit.map((med, index) => (
                                 <tr key={index}>
                                     <td>{med.id}</td>
                                     <td>{med.name}</td>
