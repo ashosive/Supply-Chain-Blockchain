@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: express-app
+  template:
+    metadata:
+      labels:
+        app: express-app
+    spec:
+      containers:
+        - name: express-app
+          image: node:latest
+          workingDir: /usr/src/app
+          command: ["/bin/sh", "-c"]
+          args:
+            - git clone https://github.com/ashosive/Supply-Chain-Blockchain /usr/src/app && cd /usr/src/app/backend && npm install && node app.js
+          ports:
+            - containerPort: 4000
