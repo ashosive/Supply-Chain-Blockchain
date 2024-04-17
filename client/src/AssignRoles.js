@@ -3,6 +3,7 @@ import Web3 from "web3";
 import SupplyChainABI from "./artifacts/SupplyChain.json"
 import { useHistory } from "react-router-dom"
 
+
 function AssignRoles() {
     const history = useHistory()
     useEffect(() => {
@@ -189,17 +190,45 @@ function AssignRoles() {
 
 
     return (
-        <div>
-            <span><b>Current Account Address:</b> {currentaccount}</span>
+        <div className='container-fluid overflow-hidden'>
+            <div className='container mt-5'>
+    <div className="row align-items-center">
+        <div className="col">
+            <div className="card">
+                <div className="card-body">
+                    <div className="card-text" style={{ maxWidth: "fit-content" }}>
+                        <span><b>Current Account Address:</b> {currentaccount}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div className="col-auto">
             <span onClick={redirect_to_home} className="btn btn-outline-danger btn-sm">HOME</span>
-            <h4>Raw Material Suppliers:</h4>
+        </div>
+    </div>
+</div>
+
+           <div className="container">
+            <div className="row mt-3">
+        <div className="col">
+            <h4>Farmers</h4>
             <form onSubmit={handlerSubmitRMS}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeAddressRMS} placeholder="Ethereum Address" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangeNameRMS} placeholder="Raw Material Supplier Name" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangePlaceRMS} placeholder="Based In" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitRMS}>Register</button>
+                <div className="row mb-3">
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeAddressRMS} placeholder="Ethereum Address" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeNameRMS} placeholder="Product" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangePlaceRMS} placeholder="Location" required />
+                    </div>
+                    <div className="col">
+                        <button className="btn btn-outline-success btn-sm" type="submit">Register</button>
+                    </div>
+                </div>
             </form>
-            <table className="table table-sm">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -221,14 +250,31 @@ function AssignRoles() {
                     })}
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div className="container">
+    <div className="row mt-3">
+        <div className="col">
             <h4>Manufacturers:</h4>
-            <form onSubmit={handlerSubmitMAN}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeAddressMAN} placeholder="Ethereum Address" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangeNameMAN} placeholder="Manufacturer Name" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangePlaceMAN} placeholder="Based In" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitMAN}>Register</button>
+            <form onSubmit={handlerSubmitMAN} className="mb-3">
+                <div className="row">
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeAddressMAN} placeholder="Ethereum Address" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeNameMAN} placeholder="Processing" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangePlaceMAN} placeholder="Location" required />
+                    </div>
+                    <div className="col">
+                        <button className="btn btn-outline-success btn-sm" type="submit">Register</button>
+                    </div>
+                </div>
             </form>
-            <table className="table table-sm">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -250,14 +296,31 @@ function AssignRoles() {
                     })}
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div className="container">
+    <div className="row mt-3">
+        <div className="col">
             <h4>Distributors:</h4>
-            <form onSubmit={handlerSubmitDIS}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeAddressDIS} placeholder="Ethereum Address" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangeNameDIS} placeholder="Distributor Name" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangePlaceDIS} placeholder="Based In" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitDIS}>Register</button>
+            <form onSubmit={handlerSubmitDIS} className="mb-3">
+                <div className="row">
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeAddressDIS} placeholder="Ethereum Address" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeNameDIS} placeholder="Distributor" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangePlaceDIS} placeholder="Location" required />
+                    </div>
+                    <div className="col">
+                        <button className="btn btn-outline-success btn-sm" type="submit">Register</button>
+                    </div>
+                </div>
             </form>
-            <table className="table table-sm">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -279,14 +342,31 @@ function AssignRoles() {
                     })}
                 </tbody>
             </table>
-            <h4>Retailers:</h4>
-            <form onSubmit={handlerSubmitRET}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeAddressRET} placeholder="Ethereum Address" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangeNameRET} placeholder="Retailer Name" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangePlaceRET} placeholder="Based In" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitRET}>Register</button>
+        </div>
+    </div>
+</div>
+
+<div className="container">
+    <div className="row mt-3">
+        <div className="col">
+            <h4>Buyers:</h4>
+            <form onSubmit={handlerSubmitRET} className="mb-3">
+                <div className="row">
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeAddressRET} placeholder="Ethereum Address" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangeNameRET} placeholder="Buyer" required />
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text" onChange={handlerChangePlaceRET} placeholder="Location" required />
+                    </div>
+                    <div className="col">
+                        <button className="btn btn-outline-success btn-sm" type="submit">Register</button>
+                    </div>
+                </div>
             </form>
-            <table className="table table-sm">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -309,7 +389,16 @@ function AssignRoles() {
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
+
+        </div>
     )
 }
 
 export default AssignRoles
+
+
+
+
+

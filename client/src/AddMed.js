@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from "react-router-dom"
+// design changes done. only content remaining
+import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import Web3 from "web3";
-import SupplyChainABI from "./artifacts/SupplyChain.json"
+import SupplyChainABI from "./artifacts/SupplyChain.json";
 
 function AddMed() {
-    const history = useHistory()
+    const history = useHistory();
+
     useEffect(() => {
         loadWeb3();
         loadBlockchaindata();
-    }, [])
+    }, []);
 
     const [currentaccount, setCurrentaccount] = useState("");
-    const [loader, setloader] = useState(true);
-    const [SupplyChain, setSupplyChain] = useState();
-    const [MED, setMED] = useState();
-    const [MedName, setMedName] = useState();
-    const [MedDes, setMedDes] = useState();
-    const [MedStage, setMedStage] = useState();
-
+    const [loader, setLoader] = useState(true);
+    const [supplyChain, setSupplyChain] = useState(null);
+    const [medicines, setMedicines] = useState([]);
+    const [medName, setMedName] = useState("");
+    const [medDes, setMedDes] = useState("");
 
     const loadWeb3 = async () => {
         if (window.ethereum) {
@@ -30,110 +30,108 @@ function AddMed() {
         } else if (window.web3) {
             window.web3 = new Web3(window.web3.currentProvider);
         } else {
-            window.alert(
-                "Non-Ethereum browser detected. You should consider trying MetaMask!"
-            );
+            window.alert("Non-Ethereum browser detected. You should consider trying MetaMask!");
         }
     };
 
-
     const loadBlockchaindata = async () => {
-        setloader(true);
-        const web3 = window.web3;
-        const accounts = await web3.eth.getAccounts();
-        const account = accounts[0];
-        setCurrentaccount(account);
-        const networkId = await web3.eth.net.getId();
-        const networkData = SupplyChainABI.networks[networkId];
-        if (networkData) {
-            const supplychain = new web3.eth.Contract(SupplyChainABI.abi, networkData.address);
-            setSupplyChain(supplychain);
-            var i;
-            const medCtr = await supplychain.methods.medicineCtr().call();
-            const med = {};
-            const medStage = [];
-            for (i = 0; i < medCtr; i++) {
-                med[i] = await supplychain.methods.MedicineStock(i + 1).call();
-                medStage[i] = await supplychain.methods.showStage(i + 1).call();
+        setLoader(true);
+        try {
+            const web3 = window.web3;
+            const accounts = await web3.eth.getAccounts();
+            const account = accounts[0];
+            setCurrentaccount(account);
+            const networkId = await web3.eth.net.getId();
+            const networkData = SupplyChainABI.networks[networkId];
+            if (networkData) {
+                const supplyChainInstance = new web3.eth.Contract(SupplyChainABI.abi, networkData.address);
+                setSupplyChain(supplyChainInstance);
+                const medCtr = await supplyChainInstance.methods.medicineCtr().call();
+                const meds = [];
+                for (let i = 0; i < medCtr; i++) {
+                    const med = await supplyChainInstance.methods.MedicineStock(i + 1).call();
+                    meds.push(med);
+                }
+                setMedicines(meds);
+                setLoader(false);
+            } else {
+                window.alert('The smart contract is not deployed to the current network');
             }
-            setMED(med);
-            setMedStage(medStage);
-            setloader(false);
+        } catch (error) {
+            console.error('Error loading blockchain data:', error);
+            setLoader(false);
         }
-        else {
-            window.alert('The smart contract is not deployed to current network')
-        }
-    }
-    if (loader) {
-        return (
-            <div>
-                <h1 className="wait">Loading...</h1>
-            </div>
-        )
+    };
 
-    }
     const redirect_to_home = () => {
-        history.push('/')
-    }
-    const handlerChangeNameMED = (event) => {
+        history.push('/');
+    };
+
+    const handleNameChange = (event) => {
         setMedName(event.target.value);
-    }
-    const handlerChangeDesMED = (event) => {
+    };
+
+    const handleDesChange = (event) => {
         setMedDes(event.target.value);
-    }
-    const handlerSubmitMED = async (event) => {
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.addMedicine(MedName, MedDes).send({ from: currentaccount, gas:6721975 });
-            if (reciept) {
-                await loadBlockchaindata();
-            }
+            await supplyChain.methods.addMedicine(medName, medDes).send({ from: currentaccount, gas: 6721975 });
+            await loadBlockchaindata();
+        } catch (error) {
+            console.error('Error submitting product order:', error);
+            alert("An error occurred while adding the product order!");
         }
-        catch (err) {
-            alert("An error occured!!!")
-        }
-    }
+    };
+
     return (
-        <div>
-            <span><b>Current Account Address:</b> {currentaccount}</span>
-            <span onClick={redirect_to_home} className="btn btn-outline-danger btn-sm"> HOME</span>
-            <br />
-            <h5>Add Medicine Order:</h5>
-            <form onSubmit={handlerSubmitMED}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeNameMED} placeholder="Medicine Name" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangeDesMED} placeholder="Medicine Description" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitMED}>Order</button>
-            </form>
-            <br />
-            <h5>Ordered Medicines:</h5>
-            <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Current Stage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(MED).map(function (key) {
-                        return (
-                            <tr key={key}>
-                                <td>{MED[key].id}</td>
-                                <td>{MED[key].name}</td>
-                                <td>{MED[key].description}</td>
-                                <td>
-                                    {
-                                        MedStage[key]
-                                    }
-                                </td>
+        <div className="container py-5">
+            <div className="row justify-content-center">
+                <div className="col-md-8 text-center mb-4">
+                    <h1 className="display-4">Add  Order</h1>
+                    <p className="lead">Order new products</p>
+                </div>
+            </div>
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <input type="text" className="form-control" placeholder="Product Name" value={medName} onChange={handleNameChange} required />
+                        </div>
+                        <div className="mb-3">
+                            <input type="text" className="form-control" placeholder="Product Description" value={medDes} onChange={handleDesChange} required />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Order</button>
+                    </form>
+                </div>
+            </div>
+            <div className="row justify-content-center mt-5">
+                <div className="col-md-8">
+                    <h3>Ordered Products</h3>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
                             </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            {medicines.map((med, index) => (
+                                <tr key={index}>
+                                    <td>{med.id}</td>
+                                    <td>{med.name}</td>
+                                    <td>{med.description}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
-export default AddMed
+export default AddMed;

@@ -1,3 +1,7 @@
+// only content changes remaining designing done
+
+
+
 import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom"
 import Web3 from "web3";
@@ -68,8 +72,8 @@ function Supply() {
     }
     if (loader) {
         return (
-            <div>
-                <h1 className="wait">Loading...</h1>
+            <div className="container">
+                <h1 className="wait text-center mt-5">Loading...</h1>
             </div>
         )
 
@@ -90,9 +94,9 @@ function Supply() {
             }
         }
         catch (err) {
-            console.log(SupplyChain);
-            await loadBlockchaindata();
-            alert("An error occured!!!")
+            
+           
+            alert("An error occurred!!!")
         }
     }
     const handlerSubmitManufacturing = async (event) => {
@@ -104,7 +108,7 @@ function Supply() {
             }
         }
         catch (err) {
-            alert("An error occured!!!")
+            alert("An error occurred!!!")
         }
     }
     const handlerSubmitDistribute = async (event) => {
@@ -116,7 +120,7 @@ function Supply() {
             }
         }
         catch (err) {
-            alert("An error occured!!!")
+            alert("An error occurred!!!")
         }
     }
     const handlerSubmitRetail = async (event) => {
@@ -128,7 +132,7 @@ function Supply() {
             }
         }
         catch (err) {
-            alert("An error occured!!!")
+            alert("An error occurred!!!")
         }
     }
     const handlerSubmitSold = async (event) => {
@@ -140,77 +144,141 @@ function Supply() {
             }
         }
         catch (err) {
-            alert("An error occured!!!")
+            alert("An error occurred!!!")
         }
     }
     return (
-        <div>
+        <div className="container">
+      
+        
+    <div className="row align-items-center">
+        <div className="col">
             <span><b>Current Account Address:</b> {currentaccount}</span>
-            <span onClick={redirect_to_home} className="btn btn-outline-danger btn-sm"> HOME</span>
-            <h6><b>Supply Chain Flow:</b></h6>
-            <p>Medicine Order -&gt; Raw Material Supplier -&gt; Manufacturer -&gt; Distributor -&gt; Retailer -&gt; Consumer</p>
-            <table className="table table-sm table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Medicine ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Current Processing Stage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(MED).map(function (key) {
-                        return (
-                            <tr key={key}>
-                                <td>{MED[key].id}</td>
-                                <td>{MED[key].name}</td>
-                                <td>{MED[key].description}</td>
-                                <td>
-                                    {
-                                        MedStage[key]
-                                    }
-                                </td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-            <h5><b>Step 1: Supply Raw Materials</b>(Only a registered Raw Material Supplier can perform this step):-</h5>
-            <form onSubmit={handlerSubmitRMSsupply}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitRMSsupply}>Supply</button>
-            </form>
-            <hr />
-            <br />
-            <h5><b>Step 2: Manufacture</b>(Only a registered Manufacturer can perform this step):-</h5>
-            <form onSubmit={handlerSubmitManufacturing}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitManufacturing}>Manufacture</button>
-            </form>
-            <hr />
-            <br />
-            <h5><b>Step 3: Distribute</b>(Only a registered Distributor can perform this step):-</h5>
-            <form onSubmit={handlerSubmitDistribute}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitDistribute}>Distribute</button>
-            </form>
-            <hr />
-            <br />
-            <h5><b>Step 4: Retail</b>(Only a registered Retailer can perform this step):-</h5>
-            <form onSubmit={handlerSubmitRetail}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitRetail}>Retail</button>
-            </form>
-            <hr />
-            <br />
-            <h5><b>Step 5: Mark as sold</b>(Only a registered Retailer can perform this step):-</h5>
-            <form onSubmit={handlerSubmitSold}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitSold}>Sold</button>
-            </form>
-            <hr />
         </div>
-    )
+        <div className="col-auto">
+            <button onClick={redirect_to_home} className="btn btn-outline-danger btn-sm">HOME</button>
+        </div>
+   
+</div>
+
+        <div className="row mt-3">
+            <div className="col">
+                <table className="table table-sm table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Current Processing Stage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.keys(MED).map(function (key) {
+                            return (
+                                <tr key={key}>
+                                    <td>{MED[key].id}</td>
+                                    <td>{MED[key].name}</td>
+                                    <td>{MED[key].description}</td>
+                                    <td>
+                                        {
+                                            MedStage[key]
+                                        }
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       
+<div className="row mt-3">
+    <div className="col">
+        <div className="card">
+            <div className="card-body">
+                <h5 className="card-title"><b>Step 1: Farmers</b> </h5>
+                <form onSubmit={handlerSubmitRMSsupply}>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" onChange={handlerChangeID} placeholder="Enter Product ID" required />
+                        <button type="submit" className="btn btn-outline-success">Enter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+<div className="row mt-3">
+    <div className="col">
+        <div className="card">
+            <div className="card-body">
+                <h5 className="card-title"><b>Step 2: Processing</b> </h5>
+                <form onSubmit={handlerSubmitManufacturing}>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" onChange={handlerChangeID} placeholder="Enter Product ID" required />
+                        <button type="submit" className="btn btn-outline-success">Enter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div className="row mt-3">
+    <div className="col">
+        <div className="card">
+            <div className="card-body">
+                <h5 className="card-title"><b>Step 3: Distribution</b></h5>
+                <form onSubmit={handlerSubmitDistribute}>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" onChange={handlerChangeID} placeholder="Enter Product ID" required />
+                        <button type="submit" className="btn btn-outline-success">Enter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div className="row mt-3">
+    <div className="col">
+        <div className="card">
+            <div className="card-body">
+                <h5 className="card-title"><b>Step 4: Buyers</b> </h5>
+                <form onSubmit={handlerSubmitRetail}>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" onChange={handlerChangeID} placeholder="Enter Product ID" required />
+                        <button type="submit" className="btn btn-outline-success">Enter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div className="row mt-3">
+    <div className="col">
+        <div className="card">
+            <div className="card-body">
+                <h5 className="card-title"><b>Step 5: Mark as sold</b> </h5>
+                <form onSubmit={handlerSubmitSold}>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" onChange={handlerChangeID} placeholder="Enter Product ID" required />
+                        <button type="submit" className="btn btn-outline-success">Enter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+        
+        )
+        
+    
 }
 
 export default Supply
+

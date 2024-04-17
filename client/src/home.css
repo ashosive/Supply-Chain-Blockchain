@@ -1,0 +1,15 @@
+
+
+.bg-gradient {
+    background: linear-gradient(to bottom, #88b235, #53831f) !important;
+}
+.custom-card {
+    border: 1px solid #ff7b00; 
+    background: linear-gradient(to bottom, #363636, #000000);
+    color: #FFFFFF;
+}
+
+.farmhead {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+}

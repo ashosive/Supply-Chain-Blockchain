@@ -1,0 +1,23 @@
+body {
+    background-color: #111; /* Black background */
+    color: #eee; /* Light text */
+}
+
+.card, .btn {
+    background-color: #222; /* Darker background for cards and buttons */
+    border-color: #444; /* Darker border color for cards */
+    color: #eee; /* Light text for cards and buttons */
+}
+
+.table {
+    background-color: #333; /* Darker background for tables */
+    color: #eee; /* Light text for tables */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #444; /* Darker striped rows for tables */
+}
+
+.wait {
+    color: #eee; /* Light text for loading message */
+}
